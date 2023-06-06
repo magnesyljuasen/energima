@@ -1,13 +1,9 @@
-#!/usr/bin/env python
-
 import os
 from time import time
 import requests
 from jose import jwt
 from cognite.client import ClientConfig, CogniteClient
 from cognite.client.credentials import Token
-
-print("hei")
 
 # A standalone example of using keycloak to authenticate to cdf and verify that we are logged inn
 
@@ -33,8 +29,6 @@ def token_expired(token):
     return remaining < 120
 
 def request_token():
-    client_name = "asplan_viak"
-    client_secret = "xdevIMhUEpqWjGxjzELJ0Xfof8QVfktx"
     parameters = {
         "client_id": client_name,
         "client_secret": client_secret,
@@ -54,17 +48,17 @@ def token():
         _last_token = request_token()
     return _last_token
 
-client_name = os.environ.get("AUTH_CLIENT_NAME", "read_all")
-client_secret = os.environ.get("AUTH_CLIENT_SECRET")
+#client_name = os.environ.get("asplan_viak", "read_all")
+#client_secret = os.environ.get("xdevIMhUEpqWjGxjzELJ0Xfof8QVfktx")
 
-print(client_name)
-print(client_secret)
-
+client_name="asplan_viak"
+client_secret = "xdevIMhUEpqWjGxjzELJ0Xfof8QVfktx"
 # Set this variable to an app specific name:
-cdf_client_name = os.environ.get("COGNITE_CLIENT_NAME", client_name)
+cdf_client_name = os.environ.get("AH_7224_Gammelbakkan_15", client_name)
 
 cfg = ClientConfig(client_name=cdf_client_name, project=project,
                    credentials=Token(token))
 cdf = CogniteClient(cfg)
+a = cdf.time_series.retrieve(external_id="TS_7224_Gammelbakkan_15+GB15=320.002-RT401").metadata
+print(a)
 
-print(cdf.assets.retrieve(external_id="AH_7224_Gammelbakkan_15,AH_7224_Rådhusvegen_14"))
