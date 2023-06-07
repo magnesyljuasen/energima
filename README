@@ -1,6 +1,0 @@
-API-tilgang til tidsseriedata fra Properate
-
-1. Standard OIDC-autentisering via auth.properate.com med en confidential client. 
-   Se vedlagte dokument og kodeeksempel i python.
-2. Aksess til tidsseriedata via REST-API for Cognite Data Fusion.
-   Se https://developer.cognite.com/api/v1/#tag/Time-series
