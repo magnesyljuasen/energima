@@ -5,6 +5,8 @@ from folium import plugins, branca
 from streamlit_folium import st_folium
 import leafmap.foliumap as leafmap
 import geopandas
+import base64
+from folium import IFrame
 
 class Map:
     def __init__(self):
@@ -33,9 +35,8 @@ class Map:
         },
         ).add_to(self.m)
  
-    def create_wms_map(self, selected_display = True, selected_zoom = 13, figure_data = 0):
+    def create_wms_map(self, selected_display = True, selected_zoom = 13, popup_data = 0):
         if selected_display == True:
-            st.title("Fra datalogging til kart")
             selected_display = st.radio("Visningsalternativer", ["Oversiktskart", "Løsmasserelatert", "Berggrunnsrelatert"])
         #--
         m = leafmap.Map(
@@ -49,28 +50,10 @@ class Map:
             shown=True
             )
         
-#        html=f"""
-#        <h3> kW</h3><br>
-#        <h5>
-#        Data:
-#        {figure_data}
-#        </h5>
-#        """
-        #iframe = branca.element.IFrame(html=html,width=510,height=280)
-        #figure = open("figur.html", "r").read()
-        #st.write(figure)
-        figure = open('figur.html', 'r', encoding='utf-8')
-        st.write(figure)        
-        html = f""" <iframe frameborder="1" width="500" height="345" src={figure}></iframe> """
-        
-    
-        
-        
         #--
         folium.Marker(
         [self.address_lat, self.address_long], 
-        tooltip=f"{figure_data}",
-        popup = folium.Popup(folium.Html(html, script=True)),
+        popup = popup_data,
         icon=folium.Icon(icon="glyphicon-home", color="red"),
         ).add_to(m)
         #--
@@ -185,7 +168,7 @@ class Map:
             ).add_to(m)
 
         folium.LayerControl(position = 'bottomleft').add_to(m)
-        st_folium(m, width = 700)
+        st_folium(m, height= 1000, width = 700)
         
     
 
